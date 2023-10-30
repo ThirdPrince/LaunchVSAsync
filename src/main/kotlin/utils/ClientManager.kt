@@ -18,7 +18,7 @@ object ClientManager {
     /**
      * getUser
      */
-    private fun getUser(userId: Int, callback: (User) -> Unit) {
+     fun getUser(userId: Int, callback: (User) -> Unit) {
         executor.execute {
             val sleepTime = Random().nextInt(500)
             Thread.sleep(sleepTime.toLong())
