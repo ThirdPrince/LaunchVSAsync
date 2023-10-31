@@ -14,8 +14,8 @@ import kotlin.system.measureTimeMillis
 suspend fun main() {
 
     //testLaunch1()
-    //testError()
-    testConcurrentLaunch()
+    testError()
+    //testConcurrentLaunch()
 
 }
 
@@ -32,7 +32,7 @@ suspend fun testError() {
         try {
             getUserError()
         } catch (e: Exception) {
-            log(e.message)
+            log("error->${e.message}")
         }
     }
     job.join()

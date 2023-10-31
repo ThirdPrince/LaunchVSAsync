@@ -11,8 +11,9 @@ import kotlin.system.measureTimeMillis
  * 返回有结果
  */
 suspend fun main() {
-    // testErrorUseAsync()
-    testConcurrentAsync()
+     testErrorUseAsync()
+     log("end")
+    //testConcurrentAsync()
 }
 
 suspend fun testAsync1() {
@@ -29,7 +30,13 @@ suspend fun testErrorUseAsync() {
     val job = GlobalScope.async {
         getUserError()
     }
-    job.join()
+    try {
+        job.await()
+    }catch (e:Exception){
+        log("e -->$e")
+    }
+
+
 
 }
 

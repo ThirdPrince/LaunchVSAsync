@@ -6,6 +6,6 @@ import utils.log
  */
 suspend fun getUserError(){
     delay(200)
-    log("finish")
+   // log("finish")
     throw Exception("not permission to get User")
 }
