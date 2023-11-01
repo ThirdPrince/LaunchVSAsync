@@ -1,5 +1,4 @@
 import kotlinx.coroutines.delay
-import utils.log
 
 /**
  * Test exception
