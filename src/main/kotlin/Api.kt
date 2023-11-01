@@ -5,6 +5,5 @@ import kotlinx.coroutines.delay
  */
 suspend fun getUserError(){
     delay(200)
-   // log("finish")
     throw Exception("not permission to get User")
 }
