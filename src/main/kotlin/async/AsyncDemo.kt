@@ -11,11 +11,14 @@ import kotlin.system.measureTimeMillis
  * 返回有结果
  */
 suspend fun main() {
-     testErrorUseAsync()
+    testAsyncCancel()
      log("end")
     //testConcurrentAsync()
 }
 
+/**
+ * async 带返回值
+ */
 suspend fun testAsync1() {
     val deferred = GlobalScope.async {
         delay(200)
@@ -23,6 +26,19 @@ suspend fun testAsync1() {
         "jjj"
     }
     log("result-->${deferred.await()}")
+}
+
+/**
+ * async 带返回值
+ */
+suspend fun testAsyncCancel() {
+    val job = GlobalScope.async {
+        delay(200)
+        log("async--1")
+        "jjj"
+    }
+    job.cancel()
+    log("cancel")
 }
 
 suspend fun testErrorUseAsync() {
@@ -36,10 +52,11 @@ suspend fun testErrorUseAsync() {
         log("e -->$e")
     }
 
-
-
 }
 
+/**
+ * 并发获取user
+ */
 suspend fun testConcurrentAsync() {
     val userList = listOf(1, 2, 3, 4, 5)
     runBlocking {

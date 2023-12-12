@@ -14,7 +14,7 @@ import kotlin.system.measureTimeMillis
 suspend fun main() {
 
     //testLaunch1()
-    testError()
+    testLaunchCancel()
     //testConcurrentLaunch()
 
 }
@@ -27,6 +27,15 @@ suspend fun testLaunch1() {
     job.join()
 }
 
+suspend fun testLaunchCancel() {
+    val job = GlobalScope.launch {
+        log(delay(200))
+        log("launch--1")
+    }
+    job.cancel()
+    log("cancel")
+}
+
 suspend fun testError() {
     val job = GlobalScope.launch {
         try {
@@ -36,7 +45,6 @@ suspend fun testError() {
         }
     }
     job.join()
-
 
 }
 
