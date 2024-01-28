@@ -28,6 +28,7 @@ suspend fun testLaunch1() {
 }
 
 suspend fun testLaunchCancel() {
+    delay(100)
     val job = GlobalScope.launch {
         log(delay(200))
         log("launch--1")
