@@ -5,12 +5,8 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
-fun main() = runBlocking {
-    // multipleTaskUseJuc()
-    //multipleTaskUseCoroutineScope()
-    //multipleTaskUseSupervisorScope()
-    asyncTaskUseSupervisorScope()
-
+fun main()  = runBlocking{
+    multipleTaskUseCoroutineScope()
 }
 
 
@@ -51,25 +47,37 @@ fun multipleTaskUseJuc() {
     println("end--> cost:::${System.currentTimeMillis() - taskStart}")
 }
 
+
+suspend fun multipleTaskUseCoroutine() {
+    println("multipleTaskUseCoroutine start")
+    val taskStart = System.currentTimeMillis()
+    val taskId = mutableListOf(1, 2, 3, 4, 5)
+    try {
+        val jobs = taskId.map { id ->
+            CoroutineScope(Dispatchers.IO).async {
+                doSomeAsync(id)
+            }
+        }
+        jobs.forEach { job ->
+            job.await()
+        }
+    } catch (e: Exception) {
+        e.printStackTrace()
+    }
+    println("multipleTaskUseCoroutine end--> cost:::${System.currentTimeMillis() - taskStart}")
+}
+
 suspend fun multipleTaskUseCoroutineScope() {
     println("multipleTaskUseCoroutine start")
     val taskStart = System.currentTimeMillis()
     val taskId = mutableListOf(1, 2, 3, 4, 5)
     try {
         coroutineScope {
-            val deferredList = taskId.map {
+            taskId.map {
                 launch {
-                    try {
-                        println(doSomeAsync(it))
-                    } catch (e: Exception) {
-                        e.printStackTrace()
-                    }
-
+                    println(doSomeAsync(it))
                 }
             }
-//            deferredList.forEach {
-//                println(it.await())
-//            }
         }
 
     } catch (e: Exception) {
@@ -91,7 +99,12 @@ suspend fun multipleTaskUseSupervisorScope() {
                 }
             }
             deferredList.forEach {
-                println(it.await())
+                try {
+                    println(it.await())
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
             }
         }
 
@@ -107,7 +120,7 @@ suspend fun asyncTaskUseSupervisorScope() {
     val taskStart = System.currentTimeMillis()
     val taskId = mutableListOf(1, 2, 3, 4, 5)
     try {
-        coroutineScope {
+        supervisorScope {
 
             val task1 = async {
                 doSomeAsync(1)
@@ -162,9 +175,9 @@ interface AsyncCallback {
 fun doSomethingAsync(taskId: Int, callback: AsyncCallback) {
     // 模拟异步操作
     Thread {
-        try {
+            try {
             Thread.sleep((2000 * taskId).toLong()) // 模拟耗时操作
-            if (taskId == 1) {
+            if (taskId == 3) {
                 throw Exception("Task $taskId failed")
             }
             callback.onSuccess("Task $taskId -->completed successfully")
