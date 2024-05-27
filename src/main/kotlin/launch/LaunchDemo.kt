@@ -2,6 +2,8 @@ package launch
 
 import getUserError
 import kotlinx.coroutines.*
+import kotlinx.coroutines.flow.asFlow
+import kotlinx.coroutines.flow.channelFlow
 import utils.ClientManager
 import utils.User
 import utils.log
@@ -11,11 +13,23 @@ import kotlin.system.measureTimeMillis
  * launch
  * 返回无结果
  */
-suspend fun main() {
+ suspend fun main() {
 
     //testLaunch1()
-    testLaunchCancel()
+   // testLaunchCancel()
+    (1..5).asFlow()
+        .collect {
+            log(it)
+        }
     //testConcurrentLaunch()
+
+    channelFlow {
+        (0..10).forEach {
+            trySend(it)
+        }
+    }.collect {
+        log(it)
+    }
 
 }
 

@@ -41,7 +41,7 @@ fun main() = runBlocking {
     }
 
     List(10) {
-        delay(100)
+
         flow.emit("restart Message--->$it")
     }
 

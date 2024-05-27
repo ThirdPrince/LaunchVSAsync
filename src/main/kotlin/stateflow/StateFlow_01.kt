@@ -19,8 +19,8 @@ fun main() = runBlocking {
     delay(100)
     stateFlow.emit(2)
     List(10){
-       // delay(100)
-        stateFlow.tryEmit(it)
+        delay(10)
+        stateFlow.emit(it)
     }
     log("end")
 
