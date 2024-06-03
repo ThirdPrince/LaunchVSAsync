@@ -9,6 +9,8 @@ fun main() = runBlocking{
     collectTest()
     collectLatestTest()
     toList()
+    getFirst()
+    single()
 }
 suspend fun collectTest() {
     flowOf(1,2,3).collect{
@@ -29,6 +31,34 @@ suspend fun collectLatestTest() {
 }
 
 suspend fun toList() {
-    val list = flowOf(1,2,3).toList()
+    val list = flow{
+        emit(1)
+        delay(100)
+        emit(2)
+        delay(100)
+        emit(3)
+    }.toList()
     log("toList $list")
+}
+
+suspend fun getFirst() {
+    val list = flow{
+        emit(1)
+        delay(100)
+        emit(2)
+        delay(100)
+        emit(3)
+    }.first()
+    log("getFirst $list")
+}
+
+suspend fun single() {
+    val list = flow{
+        emit(1)
+        delay(100)
+        emit(2)
+        delay(100)
+        emit(3)
+    }.single()
+    log("single $list")
 }
