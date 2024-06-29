@@ -1,7 +1,25 @@
-fun main(args: Array<String>) {
-    println("Hello World!")
+import kotlinx.coroutines.*
+import java.util.concurrent.Executors
+import kotlin.time.ExperimentalTime
+import kotlin.time.measureTime
 
-    // Try adding program arguments via Run/Debug configuration.
-    // Learn more about running applications: https://www.jetbrains.com/help/idea/running-applications.html.
-    println("Program arguments: ${args.joinToString()}")
+@OptIn(ExperimentalTime::class)
+fun main(args: Array<String>) = runBlocking {
+
+    val singleThread = Executors.newSingleThreadExecutor().asCoroutineDispatcher()
+    val bank = Bank()
+    bank.receiveMoney()
+   val costTime =  measureTime {
+        val jobs = List(10){
+          launch(singleThread) {
+                bank.spendMoney()
+            }
+        }
+        jobs.forEach {
+            it.join()
+        }
+    }
+    println("costTime -->$costTime")
+    println(bank._currentBalance)
+
 }
