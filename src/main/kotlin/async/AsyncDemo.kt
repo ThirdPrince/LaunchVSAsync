@@ -11,9 +11,9 @@ import kotlin.system.measureTimeMillis
  * 返回有结果
  */
 suspend fun main() {
-    testAsyncCancel()
+    //testAsyncCancel()
      log("end")
-    //testConcurrentAsync()
+    testConcurrentAsync()
 }
 
 /**
@@ -58,7 +58,7 @@ suspend fun testErrorUseAsync() {
  * 并发获取user
  */
 suspend fun testConcurrentAsync() {
-    val userList = listOf(1, 2, 3, 4, 5)
+    val userList = listOf(1, 2, 3, 4, 5,6,7,8,9)
     runBlocking {
         val costTime = measureTimeMillis {
             val deferred = userList.map {

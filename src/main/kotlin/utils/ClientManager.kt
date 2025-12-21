@@ -21,7 +21,7 @@ object ClientManager {
      fun getUser(userId: Int, callback: (User) -> Unit) {
         executor.execute {
             val sleepTime = Random().nextInt(500)
-            Thread.sleep(sleepTime.toLong())
+            Thread.sleep(200)
             callback(User(userId, sleepTime.toString(), "$userId-->avatar", ""))
         }
     }
