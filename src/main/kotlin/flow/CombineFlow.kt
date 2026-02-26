@@ -24,6 +24,5 @@ fun main() = runBlocking {
             log("it = $it")
         }
     }
-
     log("end")
 }
